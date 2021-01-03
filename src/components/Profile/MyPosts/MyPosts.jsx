@@ -11,8 +11,8 @@ const MyPosts = () => {
                 <button>Add post</button>
             </div>
             <div className={classes.posts}>
-                <Post message="hello!" />
-                <Post message="It's my first post!" />
+                <Post message="hello!" likesCount="10"/>
+                <Post message="It's my first post!" likesCount="15"/>
             </div>
         </div>
 
