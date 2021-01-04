@@ -2,29 +2,34 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import classes from './Dialogs.module.css';
 
+const DialogItem = (props) => {
+    let path = `/dialogs/${props.id}`;
+    return (
+        <div className={classes.dialog}>
+            <NavLink to={path}>{props.name}</NavLink>
+        </div>
+    )
+}
+
+const Message = (props) => {
+    return(
+        <div className={classes.message}>{props.message}</div>
+    )
+}
+
 const Dialogs = (props) => {
     return (
         <div className={classes.dialogs}>
             <div className={classes.dialogsItems}>
-                <div className={classes.dialog + ' ' + classes.active}>
-                    <NavLink to='/dialogs/1'>Dimas</NavLink> 
-                </div>
-                <div className={classes.dialog}>
-                    <NavLink to='/dialogs/2'>Dryus</NavLink>
-                </div>
-                <div className={classes.dialog}>
-                    <NavLink to='/dialogs/3'>Zaxar</NavLink>
-                </div>
-                <div className={classes.dialog}>
-                    <NavLink to='/dialogs/4'>Pus</NavLink>
-                </div>
-
+                <DialogItem id='1' name='Dimas' />
+                <DialogItem id='2' name='Dryus' />
+                <DialogItem id='3' name='Zaxar' />
+                <DialogItem id='4' name='Pus' />
             </div>
             <div className={classes.messsages}>
-                <div className={classes.message}>Hello</div>
-                <div className={classes.message}>How are you</div>
-                <div className={classes.message}>Yo! </div>
-
+                <Message message='Hello' />
+                <Message message='How are you' />
+                <Message message='Yo!' />
             </div>
         </div>
     )

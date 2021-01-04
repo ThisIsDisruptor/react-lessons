@@ -1,4 +1,12 @@
 .content {
     grid-area: content;
     background-color: moccasin;
-  }
+}
+
+.postsBlock {
+    padding: 10px;
+}
+
+.posts {
+    margin-top: 10px;
+}
