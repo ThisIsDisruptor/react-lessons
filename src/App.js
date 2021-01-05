@@ -10,20 +10,26 @@ import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 
 const App = (porps) => {
-  let posts = porps.data.posts;
-  let dialogs = porps.data.dialogs;
-  let messages = porps.data.messages;
+  let { profilePage, dialogsPage, sideBar } = porps.state;
 
   return (
     <BrowserRouter>
       <div className="app-wrapper">
         <Header />
-        <Navbar />
+        <Navbar sideBar={sideBar} />
         <div className="app-wrapper-content">
-          <Route path="/profile" render={() => <Profile posts={posts} />} />
+          <Route
+            path="/profile"
+            render={() => <Profile posts={profilePage.posts} />}
+          />
           <Route
             path="/dialogs"
-            render={() => <Dialogs dialogs={dialogs} messages={messages} />}
+            render={() => (
+              <Dialogs
+                dialogs={dialogsPage.dialogs}
+                messages={dialogsPage.messages}
+              />
+            )}
           />
 
           <Route path="/news" component={News} />

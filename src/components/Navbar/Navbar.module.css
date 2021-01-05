@@ -2,13 +2,13 @@
     grid-area: nav;
     background-color: lightsalmon;
     padding: 20px;
-  }
+}
 
 .item a {
-      color: white;
-      text-decoration: none;
-  }
+    color: white;
+    text-decoration: none;
+}
 
-  .item a.activeLink {
+.item a.activeLink {
     color: darkblue;
-  }
+}

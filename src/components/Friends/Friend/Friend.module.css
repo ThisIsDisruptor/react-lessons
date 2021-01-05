@@ -1,0 +1,9 @@
+.friend {
+    display: grid;
+    justify-items: center;
+}
+
+.friend img {
+    width: 50px;
+    border-radius: 30px;
+}
