@@ -9,8 +9,8 @@ import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
 
-const App = porps => {
-	let { profilePage, dialogsPage, sideBar } = porps.state;
+const App = props => {
+	let { profilePage, dialogsPage, sideBar } = props.state;
 
 	return (
 		<BrowserRouter>
@@ -20,11 +20,23 @@ const App = porps => {
 				<div className="app-wrapper-content">
 					<Route
 						path="/profile"
-						render={() => <Profile posts={profilePage.posts} addPost={porps.addPost} />}
+						render={() => (
+							<Profile
+								profilePage={profilePage}
+								addPost={props.addPost}
+								newPostTextUpdate={props.newPostTextUpdate}
+							/>
+						)}
 					/>
 					<Route
 						path="/dialogs"
-						render={() => <Dialogs dialogs={dialogsPage.dialogs} messages={dialogsPage.messages} />}
+						render={() => (
+							<Dialogs
+								dialogsPage={dialogsPage}
+								addMessage={props.addMessage}
+								newMessageTextUpdate={props.newMessageTextUpdate}
+							/>
+						)}
 					/>
 
 					<Route path="/news" component={News} />

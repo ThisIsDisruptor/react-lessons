@@ -27,23 +27,49 @@ let friends = [
 let state = {
 	profilePage: {
 		posts,
+		newPostText: 'ITsamurai',
 	},
 	dialogsPage: {
 		dialogs,
 		messages,
+		newMessageText: 'hello!',
 	},
 	sideBar: {
 		friends,
 	},
 };
 
-export let addPost = postText => {
+//Post
+export let addPost = () => {
 	let newPost = {
 		id: 5,
-		message: postText,
+		message: state.profilePage.newPostText,
 		likesCount: 0,
 	};
 	state.profilePage.posts.push(newPost);
+	state.profilePage.newPostText = '';
 	rerenderEntireTree(state);
 };
+
+export let newPostTextUpdate = newPostText => {
+	state.profilePage.newPostText = newPostText;
+	rerenderEntireTree(state);
+};
+
+//Message
+export let addMessage = () => {
+	let newMessage = {
+		id: 5,
+		message: state.dialogsPage.newMessageText,
+	};
+	state.dialogsPage.messages.push(newMessage);
+	state.dialogsPage.newMessageText = '';
+	rerenderEntireTree(state);
+};
+
+export let newMessageTextUpdate = newMessageText => {
+	state.dialogsPage.newMessageText = newMessageText;
+	rerenderEntireTree(state);
+};
+
 export default state;
