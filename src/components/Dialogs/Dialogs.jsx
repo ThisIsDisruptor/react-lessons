@@ -15,6 +15,7 @@ const Dialogs = props => {
 		let text = newMessageElement.current.value;
 		alert(text);
 	};
+
 	return (
 		<div className={classes.dialogs}>
 			<div className={classes.dialogsItems}>{dialogsElements}</div>
