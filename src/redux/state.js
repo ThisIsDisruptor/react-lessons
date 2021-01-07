@@ -51,6 +51,10 @@ let store = {
 		console.log('State changed');
 	},
 
+	subscribe(observer) {
+		this._callSubscriber = observer;
+	},
+
 	addPost() {
 		let newPost = {
 			id: 5,
@@ -83,8 +87,31 @@ let store = {
 		this._callSubscriber(this._state);
 	},
 
-	subscribe(observer) {
-		this._callSubscriber = observer;
+	dispatch(action) {
+		if (action.type === 'ADD-POST') {
+			let newPost = {
+				id: 5,
+				message: this._state.profilePage.newPostText,
+				likesCount: 0,
+			};
+			this._state.profilePage.posts.push(newPost);
+			this._state.profilePage.newPostText = '';
+			this._callSubscriber(this._state);
+		} else if (action.type === 'NEW-POST-TEXT-UPDATE') {
+			this._state.profilePage.newPostText = action.newPostText;
+			this._callSubscriber(this._state);
+		} else if (action.type === 'ADD-MESSAGE') {
+			let newMessage = {
+				id: 5,
+				message: this._state.dialogsPage.newMessageText,
+			};
+			this._state.dialogsPage.messages.push(newMessage);
+			this._state.dialogsPage.newMessageText = '';
+			this._callSubscriber(this._state);
+		} else if (action.type === 'NEW-MESSAGE-TEXT-UPDATE') {
+			this._state.dialogsPage.newMessageText = action.newMessageText;
+			this._callSubscriber(this._state);
+		}
 	},
 };
 
