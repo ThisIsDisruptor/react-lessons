@@ -39,41 +39,53 @@ let state = {
 	},
 };
 
-//Post
-export const addPost = () => {
-	let newPost = {
-		id: 5,
-		message: state.profilePage.newPostText,
-		likesCount: 0,
-	};
-	state.profilePage.posts.push(newPost);
-	state.profilePage.newPostText = '';
-	rerenderEntireTree(state);
+//Store
+let store = {
+	_state: state,
+
+	getState() {
+		return this._state;
+	},
+
+	_callSubscriber() {
+		console.log('State changed');
+	},
+
+	addPost() {
+		let newPost = {
+			id: 5,
+			message: this._state.profilePage.newPostText,
+			likesCount: 0,
+		};
+		this._state.profilePage.posts.push(newPost);
+		this._state.profilePage.newPostText = '';
+		this._callSubscriber(this._state);
+	},
+
+	newPostTextUpdate(newPostText) {
+		this._state.profilePage.newPostText = newPostText;
+		this._callSubscriber(this._state);
+	},
+
+	//Message
+	addMessage() {
+		let newMessage = {
+			id: 5,
+			message: this._state.dialogsPage.newMessageText,
+		};
+		this._state.dialogsPage.messages.push(newMessage);
+		this._state.dialogsPage.newMessageText = '';
+		this._callSubscriber(this._state);
+	},
+
+	newMessageTextUpdate(newMessageText) {
+		this._state.dialogsPage.newMessageText = newMessageText;
+		this._callSubscriber(this._state);
+	},
+
+	subscribe(observer) {
+		this._callSubscriber = observer;
+	},
 };
 
-export const newPostTextUpdate = newPostText => {
-	state.profilePage.newPostText = newPostText;
-	rerenderEntireTree(state);
-};
-
-//Message
-export const addMessage = () => {
-	let newMessage = {
-		id: 5,
-		message: state.dialogsPage.newMessageText,
-	};
-	state.dialogsPage.messages.push(newMessage);
-	state.dialogsPage.newMessageText = '';
-	rerenderEntireTree(state);
-};
-
-export const newMessageTextUpdate = newMessageText => {
-	state.dialogsPage.newMessageText = newMessageText;
-	rerenderEntireTree(state);
-};
-
-export const subscribe = observer => {
-	rerenderEntireTree = observer;
-};
-
-export default state;
+export default store;
