@@ -1,3 +1,8 @@
+const ADD_POST = 'ADD-POST';
+const NEW_POST_TEXT_UPDATE = 'NEW-POST-TEXT-UPDATE';
+const ADD_MESSAGE = 'ADD-MESSAGE';
+const NEW_MESSAGE_TEXT_UPDATE = 'NEW-MESSAGE-TEXT-UPDATE';
+
 let rerenderEntireTree = () => {};
 
 let posts = [
@@ -113,6 +118,32 @@ let store = {
 			this._callSubscriber(this._state);
 		}
 	},
+};
+
+export const addPostActionCreator = () => {
+	return {
+		type: ADD_POST,
+	};
+};
+
+export const updateNewPostTextActionCreator = newPostText => {
+	return {
+		type: NEW_POST_TEXT_UPDATE,
+		newPostText: newPostText,
+	};
+};
+
+export const addMessageActionCreator = () => {
+	return {
+		type: ADD_MESSAGE,
+	};
+};
+
+export const updateNewMessageTextActionCreator = newMessageText => {
+	return {
+		type: NEW_MESSAGE_TEXT_UPDATE,
+		newMessageText: newMessageText,
+	};
 };
 
 export default store;
