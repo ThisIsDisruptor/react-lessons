@@ -6,35 +6,6 @@ import {
 } from "../../../redux/profileReducer";
 import MyPosts from "./MyPosts";
 
-// const MyPostsContainer = (props) => {
-//   return (
-//     <StoreContext.Consumer>
-//       {(store) => {
-//         //   let state = props.store.getState();
-//         let state = store.getState();
-
-//         let addPost = () => {
-//           let action = addPostActionCreator();
-//           store.dispatch(action);
-//         };
-
-//         let updateNewPostText = (text) => {
-//           let action = updateNewPostTextActionCreator(text);
-//           store.dispatch(action);
-//         };
-
-//         return (
-//           <MyPosts
-//             profilePage={state.profilePage}
-//             updateNewPostText={updateNewPostText}
-//             addPost={addPost}
-//           />
-//         );
-//       }}
-//     </StoreContext.Consumer>
-//   );
-// };
-
 let mapStateToProps = (state) => {
   return {
     profilePage: state.profilePage,
