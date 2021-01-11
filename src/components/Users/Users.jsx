@@ -23,7 +23,7 @@ let Users = (props) => {
         <div>
           <img
             src={user.photos.small != null ? user.photos.small : defaultAva}
-            alt="image"
+            alt=""
           />
         </div>
         <div>
