@@ -6,14 +6,16 @@ import defaultAva from "../../assets/images/default_ava.jpg";
 let Users = (props) => {
   let users = props.usersPage.users;
 
-  if (users.length === 0) {
-    axios
-      .get("https://social-network.samuraijs.com/api/1.0/users")
-      .then((response) => {
-        debugger;
-        props.setUsers(response.data.items);
-      });
-  }
+  let getUsers = () => {
+    if (users.length === 0) {
+      axios
+        .get("https://social-network.samuraijs.com/api/1.0/users")
+        .then((response) => {
+          debugger;
+          props.setUsers(response.data.items);
+        });
+    }
+  };
 
   let userElements = users.map((user) => (
     <div key={user.id} className={classes.user}>
@@ -60,6 +62,7 @@ let Users = (props) => {
   return (
     <div>
       Users will be here
+      <button onClick={getUsers()}>Get Users</button>
       {userElements}
     </div>
   );
