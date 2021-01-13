@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import {
   followActionCreator,
+  setCurrentPageActionCreator,
+  setTotalUsersCountActionCreator,
   setUsersActionCreator,
   unfollowtActionCreator,
 } from "../../redux/usersReducer";
@@ -25,6 +27,14 @@ const mapDispatchToProps = (dispatch) => {
     },
     setUsers: (users) => {
       let action = setUsersActionCreator(users);
+      dispatch(action);
+    },
+    setCurrentPage: (currentPage) => {
+      let action = setCurrentPageActionCreator(currentPage);
+      dispatch(action);
+    },
+    setTotalUsersCount: (totalUsersCount) => {
+      let action = setTotalUsersCountActionCreator(totalUsersCount);
       dispatch(action);
     },
   };
