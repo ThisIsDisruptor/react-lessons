@@ -18,11 +18,16 @@ let Users = (props) => {
     pages.push(i);
   }
 
+  let delta = 3;
+  let pagesForShow = pages.filter(
+    (page) => page < currentPage + delta && page > currentPage - delta
+  );
   return (
     <div>
       Users are here
       <div>
-        {pages.map((page) => (
+        {currentPage >= delta + 1 && <span>{"... "}</span>}
+        {pagesForShow.map((page) => (
           <span
             className={page === currentPage ? classes.selectedPage : ""}
             onClick={(e) => {
@@ -32,6 +37,7 @@ let Users = (props) => {
             {page + " "}
           </span>
         ))}
+        {currentPage <= pagesCount - (delta + 1) && <span>...</span>}
       </div>
       {users.map((user) => (
         <div key={user.id} className={classes.user}>

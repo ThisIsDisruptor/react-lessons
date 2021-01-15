@@ -5,16 +5,19 @@ import {
   setCurrentPageActionCreator,
   setTotalUsersCountActionCreator,
   setUsersActionCreator,
+  toggleIsFetchingActionCreator,
   unfollowtActionCreator,
 } from "../../redux/usersReducer";
 import * as axios from "axios";
 import Users from "./Users";
+import Preloader from "../common/Preloader/Preloader";
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
     let users = this.props.usersPage.users;
 
     if (users.length === 0) {
+      this.props.toggleIsFetching(true);
       axios
         .get(
           `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.usersPage.currentPage}&count=${this.props.usersPage.pageSize}`
@@ -22,11 +25,13 @@ class UsersAPIComponent extends React.Component {
         .then((response) => {
           this.props.setUsers(response.data.items);
           this.props.setTotalUsersCount(response.data.totalCount);
+          this.props.toggleIsFetching(false);
         });
     }
   }
 
   onPageChanged = (pageNumber) => {
+    this.props.toggleIsFetching(true);
     this.props.setCurrentPage(pageNumber);
     axios
       .get(
@@ -34,17 +39,21 @@ class UsersAPIComponent extends React.Component {
       )
       .then((response) => {
         this.props.setUsers(response.data.items);
+        this.props.toggleIsFetching(false);
       });
   };
 
   render() {
     return (
-      <Users
-        usersPage={this.props.usersPage}
-        onPageChanged={this.onPageChanged}
-        followUser={this.props.followUser}
-        unfollowUser={this.props.unfollowUser}
-      />
+      <>
+        <Preloader isFetching={this.props.usersPage.isFetching} />
+        <Users
+          usersPage={this.props.usersPage}
+          onPageChanged={this.onPageChanged}
+          followUser={this.props.followUser}
+          unfollowUser={this.props.unfollowUser}
+        />
+      </>
     );
   }
 }
@@ -74,6 +83,10 @@ const mapDispatchToProps = (dispatch) => {
     },
     setTotalUsersCount: (totalUsersCount) => {
       let action = setTotalUsersCountActionCreator(totalUsersCount);
+      dispatch(action);
+    },
+    toggleIsFetching: (isFetching) => {
+      let action = toggleIsFetchingActionCreator(isFetching);
       dispatch(action);
     },
   };
