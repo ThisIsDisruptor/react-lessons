@@ -1,6 +1,6 @@
 import React from "react";
 
-import preloaderGif from "../../assets/images/loading.gif";
+import preloaderGif from "../../../assets/images/loading.gif";
 
 const Preloader = (props) => {
   return (
