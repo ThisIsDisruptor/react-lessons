@@ -44,7 +44,7 @@ const ProfileInfo = (props) => {
             <div>facebook: {facebook}</div>
             <div>website: {website}</div>
             <div>vk: {vk} </div>
-            <div>twitter {twitter}</div>
+            <div>twitter: {twitter}</div>
             <div>instagram: {instagram} </div>
             <div>youTube: {youtube} </div>
             <div>github: {github} </div>

@@ -120,7 +120,7 @@ export const followUser = (userID) => {
   };
 };
 
-export const unfollowtUser = (userID) => {
+export const unfollowUser = (userID) => {
   return {
     type: UNFOLLOW,
     userID: userID,

@@ -6,7 +6,7 @@ import {
   setTotalUsersCount,
   setUsers,
   toggleIsFetching,
-  unfollowtUser,
+  unfollowUser,
 } from "../../redux/usersReducer";
 import * as axios from "axios";
 import Users from "./Users";
@@ -66,7 +66,7 @@ const mapStateToProps = (state) => {
 
 let functionsToProps = {
   followUser,
-  unfollowtUser,
+  unfollowUser,
   setUsers,
   setCurrentPage,
   setTotalUsersCount,
