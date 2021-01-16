@@ -2,6 +2,8 @@ import React from "react";
 import classes from "./Users.module.css";
 import * as axios from "axios";
 import defaultAva from "../../assets/images/default_ava.jpg";
+import Navbar from "../Navbar/Navbar";
+import { NavLink } from "react-router-dom";
 
 let Users = (props) => {
   let users = props.usersPage.users;
@@ -43,10 +45,14 @@ let Users = (props) => {
         <div key={user.id} className={classes.user}>
           <span>
             <div>
-              <img
-                src={user.photos.small != null ? user.photos.small : defaultAva}
-                alt=""
-              />
+              <NavLink to={"/profile/" + user.id}>
+                <img
+                  src={
+                    user.photos.small != null ? user.photos.small : defaultAva
+                  }
+                  alt=""
+                />
+              </NavLink>
             </div>
             <div>
               {user.followed ? (
