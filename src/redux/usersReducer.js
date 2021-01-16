@@ -62,7 +62,7 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         users: state.users.map((user) => {
-          if (user.id === action.userID) {
+          if (user.id === action.userId) {
             user.followed = true;
           }
           return { ...user };
@@ -73,7 +73,7 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         users: state.users.map((user) => {
-          if (user.id === action.userID) {
+          if (user.id === action.userId) {
             user.followed = false;
           }
           return { ...user };
@@ -113,17 +113,17 @@ const usersReducer = (state = initialState, action) => {
   }
 };
 
-export const followUser = (userID) => {
+export const followUser = (userId) => {
   return {
     type: FOLLOW,
-    userID: userID,
+    userId: userId,
   };
 };
 
-export const unfollowUser = (userID) => {
+export const unfollowUser = (userId) => {
   return {
     type: UNFOLLOW,
-    userID: userID,
+    userId: userId,
   };
 };
 export const setUsers = (users) => {

@@ -58,7 +58,24 @@ let Users = (props) => {
               {user.followed ? (
                 <button
                   onClick={() => {
-                    props.unfollowUser(user.id);
+                    axios
+                      .delete(
+                        `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+
+                        {
+                          withCredentials: true,
+                          headers: {
+                            "API-KEY": "184c66c7-8543-4e1f-ac49-3368e415c804",
+                          },
+                        }
+                      )
+                      .then((response) => {
+                        if (response.data.resultCode === 0) {
+                          props.unfollowUser(user.id);
+                        } else {
+                          alert("Не удалось:" + response.data.message);
+                        }
+                      });
                   }}
                 >
                   Unfollow
@@ -66,7 +83,24 @@ let Users = (props) => {
               ) : (
                 <button
                   onClick={() => {
-                    props.followUser(user.id);
+                    axios
+                      .post(
+                        `https://social-network.samuraijs.com/api/1.0/follow/${user.id}`,
+                        {},
+                        {
+                          withCredentials: true,
+                          headers: {
+                            "API-KEY": "184c66c7-8543-4e1f-ac49-3368e415c804",
+                          },
+                        }
+                      )
+                      .then((response) => {
+                        if (response.data.resultCode === 0) {
+                          props.followUser(user.id);
+                        } else {
+                          alert("Не удалось");
+                        }
+                      });
                   }}
                 >
                   Follow
