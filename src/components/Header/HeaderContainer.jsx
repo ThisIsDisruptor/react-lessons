@@ -5,18 +5,15 @@ import { connect } from "react-redux";
 import { setAuthUserData } from "../../redux/authReducer";
 import { withRouter } from "react-router-dom";
 import Header from "./Header";
+import { authAPI } from "../api/api";
 
 class HeaderAPIContainer extends React.Component {
   componentDidMount() {
-    axios
-      .get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (response.data.resultCode === 0) {
-          this.props.setAuthUserData(response.data.data);
-        }
-      });
+    authAPI.getAuthUserData().then((data) => {
+      if (data.resultCode === 0) {
+        this.props.setAuthUserData(data.data);
+      }
+    });
   }
 
   render() {

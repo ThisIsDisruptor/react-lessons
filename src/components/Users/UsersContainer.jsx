@@ -11,6 +11,7 @@ import {
 import * as axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import { usersAPI } from "../api/api";
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
@@ -18,17 +19,14 @@ class UsersAPIComponent extends React.Component {
 
     if (users.length === 0) {
       this.props.toggleIsFetching(true);
-      axios
-        .get(
-          `https://social-network.samuraijs.com/api/1.0/users?page=${this.props.usersPage.currentPage}&count=${this.props.usersPage.pageSize}`,
-          {
-            withCredentials: true,
-          }
+      usersAPI
+        .getUsers(
+          this.props.usersPage.currentPage,
+          this.props.usersPage.pageSize
         )
-        .then((response) => {
-          debugger;
-          this.props.setUsers(response.data.items);
-          this.props.setTotalUsersCount(response.data.totalCount);
+        .then((data) => {
+          this.props.setUsers(data.items);
+          this.props.setTotalUsersCount(data.totalCount);
           this.props.toggleIsFetching(false);
         });
     }
@@ -37,17 +35,32 @@ class UsersAPIComponent extends React.Component {
   onPageChanged = (pageNumber) => {
     this.props.toggleIsFetching(true);
     this.props.setCurrentPage(pageNumber);
-    axios
-      .get(
-        `https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${this.props.usersPage.pageSize}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        this.props.setUsers(response.data.items);
+    usersAPI
+      .getUsers(pageNumber, this.props.usersPage.pageSize)
+      .then((data) => {
+        this.props.setUsers(data.items);
         this.props.toggleIsFetching(false);
       });
+  };
+
+  followUser = (userId) => {
+    usersAPI.followUser(userId).then((data) => {
+      if (data.resultCode === 0) {
+        this.props.followUser(userId);
+      } else {
+        alert("Не удалось");
+      }
+    });
+  };
+
+  unfollowUser = (userId) => {
+    usersAPI.unfollowUser(userId).then((data) => {
+      if (data.resultCode === 0) {
+        this.props.unfollowUser(userId);
+      } else {
+        alert("Не удалось");
+      }
+    });
   };
 
   render() {
@@ -57,8 +70,8 @@ class UsersAPIComponent extends React.Component {
         <Users
           usersPage={this.props.usersPage}
           onPageChanged={this.onPageChanged}
-          followUser={this.props.followUser}
-          unfollowUser={this.props.unfollowUser}
+          followUser={this.followUser}
+          unfollowUser={this.unfollowUser}
         />
       </>
     );
