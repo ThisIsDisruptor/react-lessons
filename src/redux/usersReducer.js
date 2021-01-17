@@ -4,49 +4,7 @@ const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
-
-// let users = [
-//   {
-//     id: 1,
-//     followed: true,
-//     fullName: "Dimas",
-//     photoURL:
-//       "https://ic.pics.livejournal.com/art_from_heart/39116426/3505/3505_original.jpg",
-//     status: "Drachicho",
-//     location: { city: "Prague", country: "Chech Repulic" },
-//   },
-//   {
-//     id: 2,
-//     followed: true,
-//     fullName: "Dryus",
-//     photoURL:
-//       "https://ic.pics.livejournal.com/art_from_heart/39116426/3505/3505_original.jpg",
-//     status: "helloWorld!",
-//     location: { city: "Ruazan", country: "Russia" },
-//   },
-//   {
-//     id: 3,
-//     followed: false,
-//     fullName: "Zaxar",
-//     photoURL:
-//       "https://ic.pics.livejournal.com/art_from_heart/39116426/3505/3505_original.jpg",
-//     status: "ZaxarPixar",
-//     location: { city: "Batumi", country: "Georgia" },
-//   },
-//   {
-//     id: 4,
-//     followed: false,
-//     fullName: "Pus",
-//     photoURL:
-//       "https://ic.pics.livejournal.com/art_from_heart/39116426/3505/3505_original.jpg",
-//     status: "KEKW",
-//     location: { city: "Twich", country: "Internet" },
-//   },
-// ];
-
-// let initialState = {
-//   users,
-// };
+const TOGGLE_FOLLOWING_IN_PROGERSS = "TOGGLE_FOLLOWING_IN_PROGERSS";
 
 let initialState = {
   users: [],
@@ -54,6 +12,7 @@ let initialState = {
   totalUsersCount: 0,
   currentPage: 1,
   isFetching: true,
+  followingInProgress: [],
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -108,6 +67,15 @@ const usersReducer = (state = initialState, action) => {
       };
     }
 
+    case TOGGLE_FOLLOWING_IN_PROGERSS: {
+      return {
+        ...state,
+        followingInProgress: action.isFetching
+          ? [...state.followingInProgress, action.userId]
+          : [...state.followingInProgress.filter((id) => id !== action.userId)],
+      };
+    }
+
     default:
       return state;
   }
@@ -150,6 +118,14 @@ export const setTotalUsersCount = (totalUsersCount) => {
 export const toggleIsFetching = (isFetching) => {
   return {
     type: TOGGLE_IS_FETCHING,
+    isFetching: isFetching,
+  };
+};
+
+export const toggleFollowingInProgress = (userId, isFetching) => {
+  return {
+    type: TOGGLE_FOLLOWING_IN_PROGERSS,
+    userId: userId,
     isFetching: isFetching,
   };
 };

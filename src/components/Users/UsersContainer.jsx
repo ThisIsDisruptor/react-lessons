@@ -7,6 +7,7 @@ import {
   setUsers,
   toggleIsFetching,
   unfollowUser,
+  toggleFollowingInProgress,
 } from "../../redux/usersReducer";
 import * as axios from "axios";
 import Users from "./Users";
@@ -32,7 +33,7 @@ class UsersAPIComponent extends React.Component {
     }
   }
 
-  onPageChanged = (pageNumber) => {
+  onPageChanged(pageNumber) {
     this.props.toggleIsFetching(true);
     this.props.setCurrentPage(pageNumber);
     usersAPI
@@ -41,27 +42,31 @@ class UsersAPIComponent extends React.Component {
         this.props.setUsers(data.items);
         this.props.toggleIsFetching(false);
       });
-  };
+  }
 
-  followUser = (userId) => {
+  followUser(userId) {
+    this.props.toggleFollowingInProgress(userId, true);
     usersAPI.followUser(userId).then((data) => {
       if (data.resultCode === 0) {
         this.props.followUser(userId);
       } else {
         alert("Не удалось");
       }
+      this.props.toggleFollowingInProgress(userId, false);
     });
-  };
+  }
 
-  unfollowUser = (userId) => {
+  unfollowUser(userId) {
+    this.props.toggleFollowingInProgress(userId, true);
     usersAPI.unfollowUser(userId).then((data) => {
       if (data.resultCode === 0) {
         this.props.unfollowUser(userId);
       } else {
         alert("Не удалось");
       }
+      this.props.toggleFollowingInProgress(userId, false);
     });
-  };
+  }
 
   render() {
     return (
@@ -69,9 +74,9 @@ class UsersAPIComponent extends React.Component {
         <Preloader isFetching={this.props.usersPage.isFetching} />
         <Users
           usersPage={this.props.usersPage}
-          onPageChanged={this.onPageChanged}
-          followUser={this.followUser}
-          unfollowUser={this.unfollowUser}
+          onPageChanged={this.onPageChanged.bind(this)}
+          followUser={this.followUser.bind(this)}
+          unfollowUser={this.unfollowUser.bind(this)}
         />
       </>
     );
@@ -91,6 +96,7 @@ let functionsToProps = {
   setCurrentPage,
   setTotalUsersCount,
   toggleIsFetching,
+  toggleFollowingInProgress,
 };
 
 const UsersContainer = connect(
