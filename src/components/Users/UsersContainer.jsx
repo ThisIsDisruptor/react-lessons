@@ -1,71 +1,33 @@
 import React from "react";
 import { connect } from "react-redux";
 import {
-  followUser,
+  getUsersThunkCreator,
+  followUserThunkCreator,
+  unfollowUserThunkCreator,
   setCurrentPage,
-  setTotalUsersCount,
-  setUsers,
-  toggleIsFetching,
-  unfollowUser,
-  toggleFollowingInProgress,
 } from "../../redux/usersReducer";
-import * as axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import { usersAPI } from "../api/api";
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
-    let users = this.props.usersPage.users;
-
-    if (users.length === 0) {
-      this.props.toggleIsFetching(true);
-      usersAPI
-        .getUsers(
-          this.props.usersPage.currentPage,
-          this.props.usersPage.pageSize
-        )
-        .then((data) => {
-          this.props.setUsers(data.items);
-          this.props.setTotalUsersCount(data.totalCount);
-          this.props.toggleIsFetching(false);
-        });
-    }
+    this.props.getUsers(
+      this.props.usersPage.currentPage,
+      this.props.usersPage.pageSize
+    );
   }
 
   onPageChanged(pageNumber) {
-    this.props.toggleIsFetching(true);
     this.props.setCurrentPage(pageNumber);
-    usersAPI
-      .getUsers(pageNumber, this.props.usersPage.pageSize)
-      .then((data) => {
-        this.props.setUsers(data.items);
-        this.props.toggleIsFetching(false);
-      });
+    this.props.getUsers(pageNumber, this.props.usersPage.pageSize);
   }
 
   followUser(userId) {
-    this.props.toggleFollowingInProgress(userId, true);
-    usersAPI.followUser(userId).then((data) => {
-      if (data.resultCode === 0) {
-        this.props.followUser(userId);
-      } else {
-        alert("Не удалось");
-      }
-      this.props.toggleFollowingInProgress(userId, false);
-    });
+    this.props.followUser(userId);
   }
 
   unfollowUser(userId) {
-    this.props.toggleFollowingInProgress(userId, true);
-    usersAPI.unfollowUser(userId).then((data) => {
-      if (data.resultCode === 0) {
-        this.props.unfollowUser(userId);
-      } else {
-        alert("Не удалось");
-      }
-      this.props.toggleFollowingInProgress(userId, false);
-    });
+    this.props.unfollowUser(userId);
   }
 
   render() {
@@ -90,13 +52,10 @@ const mapStateToProps = (state) => {
 };
 
 let functionsToProps = {
-  followUser,
-  unfollowUser,
-  setUsers,
+  followUser: followUserThunkCreator,
+  unfollowUser: unfollowUserThunkCreator,
+  getUsers: getUsersThunkCreator,
   setCurrentPage,
-  setTotalUsersCount,
-  toggleIsFetching,
-  toggleFollowingInProgress,
 };
 
 const UsersContainer = connect(

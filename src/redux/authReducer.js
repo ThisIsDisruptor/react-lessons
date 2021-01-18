@@ -1,3 +1,5 @@
+import { authAPI } from "../components/api/api";
+
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
 
@@ -43,4 +45,13 @@ export const toggleIsFetching = (isFetching) => {
     isFetching: isFetching,
   };
 };
+
+export const getAuthUserDataThunkCreator = () => (dispatch) => {
+  authAPI.getAuthUserData().then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setAuthUserData(data.data));
+    }
+  });
+};
+
 export default authReducer;

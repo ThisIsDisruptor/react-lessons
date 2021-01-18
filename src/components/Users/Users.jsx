@@ -1,8 +1,6 @@
 import React from "react";
 import classes from "./Users.module.css";
-import * as axios from "axios";
 import defaultAva from "../../assets/images/default_ava.jpg";
-import Navbar from "../Navbar/Navbar";
 import { NavLink } from "react-router-dom";
 
 let Users = (props) => {
