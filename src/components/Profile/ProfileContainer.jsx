@@ -2,7 +2,9 @@ import React from "react";
 import Profile from "./Profile";
 import { connect } from "react-redux";
 import { getProfileInfoThunkCreator } from "../../redux/profileReducer";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import { compose } from "redux";
 
 class ProfileAPIComponent extends React.Component {
   componentDidMount() {
@@ -13,26 +15,22 @@ class ProfileAPIComponent extends React.Component {
     this.props.getProfileInfo(userId);
   }
   render() {
-    if (!this.props.isAuth) return <Redirect to="/login" />;
-
     return <Profile {...this.props} profile={this.props.profile} />;
   }
 }
 
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
-  isAuth: state.auth.isAuth,
 });
 
 let functionsToProps = {
   getProfileInfo: getProfileInfoThunkCreator,
 };
 
-let ProfileAPIComponentWithURLData = withRouter(ProfileAPIComponent);
-
-let ProfileComponent = connect(
-  mapStateToProps,
-  functionsToProps
-)(ProfileAPIComponentWithURLData);
+let ProfileComponent = compose(
+  withAuthRedirect,
+  withRouter,
+  connect(mapStateToProps, functionsToProps)
+)(ProfileAPIComponent);
 
 export default ProfileComponent;

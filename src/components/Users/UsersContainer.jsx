@@ -8,6 +8,8 @@ import {
 } from "../../redux/usersReducer";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
+import { compose } from "redux";
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
@@ -58,9 +60,9 @@ let functionsToProps = {
   setCurrentPage,
 };
 
-const UsersContainer = connect(
-  mapStateToProps,
-  functionsToProps
+const UsersContainer = compose(
+  withAuthRedirect,
+  connect(mapStateToProps, functionsToProps)
 )(UsersAPIComponent);
 
 export default UsersContainer;
