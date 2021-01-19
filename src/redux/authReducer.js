@@ -1,4 +1,4 @@
-import { authAPI } from "../components/api/api";
+import { authAPI } from "../api/api";
 
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";

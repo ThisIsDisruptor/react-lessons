@@ -1,14 +1,8 @@
 import React from "react";
-
-import * as axios from "axios";
 import { connect } from "react-redux";
-import {
-  getAuthUserDataThunkCreator,
-  setAuthUserData,
-} from "../../redux/authReducer";
+import { getAuthUserDataThunkCreator } from "../../redux/authReducer";
 import { withRouter } from "react-router-dom";
 import Header from "./Header";
-import { authAPI } from "../api/api";
 
 class HeaderAPIContainer extends React.Component {
   componentDidMount() {
