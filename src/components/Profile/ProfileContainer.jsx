@@ -10,7 +10,8 @@ class ProfileAPIComponent extends React.Component {
   componentDidMount() {
     let userId = this.props.match.params.userId;
     if (!userId) {
-      userId = 14119;
+      // userId = 14119;
+      userId = 2;
     }
     this.props.getProfileInfo(userId);
   }
