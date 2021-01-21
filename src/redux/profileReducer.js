@@ -3,6 +3,7 @@ import { profileAPI } from "../api/api";
 const ADD_POST = "ADD-POST";
 const NEW_POST_TEXT_UPDATE = "NEW-POST-TEXT-UPDATE";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
+const SET_USER_STATUS = "SET_USER_STATUS";
 
 let posts = [
   { id: 1, message: "hello!", likesCount: 10 },
@@ -13,6 +14,7 @@ let initialState = {
   posts,
   newPostText: "ITsamurai",
   profile: null,
+  status: null,
 };
 
 const profileReducer = (state = initialState, action) => {
@@ -42,6 +44,13 @@ const profileReducer = (state = initialState, action) => {
         profile: action.profile,
       };
     }
+    case SET_USER_STATUS: {
+      return {
+        ...state,
+        status: action.status,
+      };
+    }
+
     default:
       return state;
   }
@@ -67,9 +76,32 @@ export const setUserProfile = (profile) => {
   };
 };
 
+export const setUserStatus = (status) => {
+  return {
+    type: SET_USER_STATUS,
+    status: status,
+  };
+};
+
 export const getProfileInfoThunkCreator = (userId) => (dispatch) => {
   profileAPI.getProfileInfo(userId).then((data) => {
     dispatch(setUserProfile(data));
+  });
+};
+
+export const getStatusThunkCreator = (userId) => (dispatch) => {
+  profileAPI.getStatus(userId).then((data) => {
+    dispatch(setUserStatus(data));
+  });
+};
+
+export const updateStatusThunkCreator = (status) => (dispatch) => {
+  profileAPI.updateStatus(status).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setUserStatus(status));
+    } else {
+      alert("Не удалось");
+    }
   });
 };
 
