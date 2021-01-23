@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
-import { addMessage, updateNewMessageText } from "../../redux/dialogsReducer";
+import { addMessage } from "../../redux/dialogsReducer";
 
 import Dialogs from "./Dialogs";
 
@@ -15,7 +15,6 @@ let mapStateToProps = (state) => {
 
 let functionsToProps = {
   addMessage,
-  updateNewMessageText,
 };
 
 let DialogsContainer = compose(
