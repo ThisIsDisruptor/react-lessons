@@ -59,6 +59,18 @@ const getAuthUserData = () => {
   return instance.get(`auth/me`).then((response) => response.data);
 };
 
+const login = (email, password, rememberMe = false) => {
+  return instance
+    .post(`auth/login`, { email, password, rememberMe })
+    .then((response) => response.data);
+};
+
+const logout = (email, password, rememberMe = false) => {
+  return instance.delete(`auth/login`).then((response) => response.data);
+};
+
 export const authAPI = {
   getAuthUserData,
+  login,
+  logout,
 };

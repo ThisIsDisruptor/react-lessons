@@ -1,6 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getAuthUserDataThunkCreator } from "../../redux/authReducer";
+import {
+  getAuthUserDataThunkCreator,
+  logoutThunkCreator,
+} from "../../redux/authReducer";
 import { withRouter } from "react-router-dom";
 import Header from "./Header";
 
@@ -20,6 +23,7 @@ let mapStateToProps = (state) => ({
 
 let functionsToProps = {
   getAuthUserData: getAuthUserDataThunkCreator,
+  logout: logoutThunkCreator,
 };
 
 let HeaderContainer = connect(

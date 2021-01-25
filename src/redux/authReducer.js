@@ -17,7 +17,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.data,
-        isAuth: true,
+        isAuth: action.isAuth,
       };
     }
     case TOGGLE_IS_FETCHING: {
@@ -32,10 +32,11 @@ const authReducer = (state = initialState, action) => {
   }
 };
 
-export const setAuthUserData = (data) => {
+export const setAuthUserData = (data, isAuth) => {
   return {
     type: SET_AUTH_USER_DATA,
     data: data,
+    isAuth: isAuth,
   };
 };
 
@@ -49,7 +50,25 @@ export const toggleIsFetching = (isFetching) => {
 export const getAuthUserDataThunkCreator = () => (dispatch) => {
   authAPI.getAuthUserData().then((data) => {
     if (data.resultCode === 0) {
-      dispatch(setAuthUserData(data.data));
+      dispatch(setAuthUserData(data.data, true));
+    }
+  });
+};
+
+export const loginThunkCreator = (email, password, rememberMe) => (
+  dispatch
+) => {
+  authAPI.login(email, password, rememberMe).then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(getAuthUserDataThunkCreator());
+    }
+  });
+};
+
+export const logoutThunkCreator = () => (dispatch) => {
+  authAPI.logout().then((data) => {
+    if (data.resultCode === 0) {
+      dispatch(setAuthUserData({ id: null, email: null, login: null }, false));
     }
   });
 };
