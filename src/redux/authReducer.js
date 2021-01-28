@@ -1,4 +1,5 @@
 import { authAPI } from "../api/api";
+import { stopSubmit } from "redux-form";
 
 const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
@@ -61,6 +62,10 @@ export const loginThunkCreator = (email, password, rememberMe) => (
   authAPI.login(email, password, rememberMe).then((data) => {
     if (data.resultCode === 0) {
       dispatch(getAuthUserDataThunkCreator());
+    } else {
+      let message = data.messages.length > 0 ? data.messages[0] : "Some error";
+      let action = stopSubmit("login", { _error: message });
+      dispatch(action);
     }
   });
 };

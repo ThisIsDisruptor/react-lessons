@@ -14,7 +14,7 @@ class ProfileAPIComponent extends React.Component {
   componentDidMount() {
     let userId = this.props.match.params.userId;
     if (!userId) {
-      userId = 14119;
+      userId = this.props.authorizedUserId;
       //userId = 2;
     }
     this.props.getProfileInfo(userId);
@@ -35,6 +35,8 @@ class ProfileAPIComponent extends React.Component {
 let mapStateToProps = (state) => ({
   profile: state.profilePage.profile,
   status: state.profilePage.status,
+  authorizedUserId: state.auth.id,
+  isAuth: state.auth.isAuth,
 });
 
 let functionsToProps = {
