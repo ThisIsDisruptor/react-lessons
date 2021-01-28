@@ -10,6 +10,15 @@ import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import { compose } from "redux";
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
+import {
+  getCurrentPage,
+  getFollowingInProgress,
+  getIsFetching,
+  getPageSize,
+  getTotalUsersCount,
+  getUsers,
+} from "../../redux/userSelector";
+import { getProfileInfoThunkCreator } from "../../redux/profileReducer";
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
@@ -49,7 +58,14 @@ class UsersAPIComponent extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    usersPage: state.usersPage,
+    usersPage: {
+      users: getUsers(state),
+      pageSize: getPageSize(state),
+      totalUsersCount: getTotalUsersCount(state),
+      currentPage: getCurrentPage(state),
+      isFetching: getIsFetching(state),
+      followingInProgress: getFollowingInProgress(state),
+    },
   };
 };
 
