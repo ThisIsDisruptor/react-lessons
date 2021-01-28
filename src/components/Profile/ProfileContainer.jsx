@@ -16,6 +16,9 @@ class ProfileAPIComponent extends React.Component {
     if (!userId) {
       userId = this.props.authorizedUserId;
       //userId = 2;
+      if (!userId) {
+        this.props.history.push("/login");
+      }
     }
     this.props.getProfileInfo(userId);
     this.props.getStatus(userId);

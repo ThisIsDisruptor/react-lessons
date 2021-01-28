@@ -49,7 +49,7 @@ export const toggleIsFetching = (isFetching) => {
 };
 
 export const getAuthUserDataThunkCreator = () => (dispatch) => {
-  authAPI.getAuthUserData().then((data) => {
+  return authAPI.getAuthUserData().then((data) => {
     if (data.resultCode === 0) {
       dispatch(setAuthUserData(data.data, true));
     }

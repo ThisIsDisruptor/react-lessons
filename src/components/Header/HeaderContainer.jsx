@@ -8,10 +8,6 @@ import { withRouter } from "react-router-dom";
 import Header from "./Header";
 
 class HeaderAPIContainer extends React.Component {
-  componentDidMount() {
-    this.props.getAuthUserData();
-  }
-
   render() {
     return <Header {...this.props} />;
   }

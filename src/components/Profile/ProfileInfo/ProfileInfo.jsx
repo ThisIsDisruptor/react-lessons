@@ -5,7 +5,7 @@ import ProfileStatus from "./ProfileStatus";
 
 const ProfileInfo = (props) => {
   if (!props.profile) {
-    return <Preloader />;
+    return <Preloader isFetching={true} />;
   } else {
     let {
       aboutMe,

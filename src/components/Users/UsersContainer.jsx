@@ -61,7 +61,7 @@ let functionsToProps = {
 };
 
 const UsersContainer = compose(
-  withAuthRedirect,
+  //withAuthRedirect,
   connect(mapStateToProps, functionsToProps)
 )(UsersAPIComponent);
 
