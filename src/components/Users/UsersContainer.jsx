@@ -9,7 +9,6 @@ import {
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import { compose } from "redux";
-import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 import {
   getCurrentPage,
   getFollowingInProgress,
@@ -18,7 +17,6 @@ import {
   getTotalUsersCount,
   getUsers,
 } from "../../redux/userSelector";
-import { getProfileInfoThunkCreator } from "../../redux/profileReducer";
 
 class UsersAPIComponent extends React.Component {
   componentDidMount() {
