@@ -10,7 +10,6 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileComponent from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
-import { getAuthUserDataThunkCreator } from "./redux/authReducer";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { initializeAppThunkCreator } from "./redux/appReducer";

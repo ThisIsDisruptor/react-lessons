@@ -1,4 +1,4 @@
-const ADD_MESSAGE = "ADD-MESSAGE";
+const ADD_MESSAGE = "socialNetwork/dialogs/ADD-MESSAGE";
 
 let dialogs = [
   { id: 1, name: "Dimas" },

@@ -5,8 +5,9 @@ import { requiredField } from "../../utils/valodators/validators";
 import { Input } from "../common/FormsControls/FormsControls";
 import classes from "../common/FormsControls/FormControls.module.css";
 const LoginForm = (props) => {
+  let { handleSubmit, error } = props;
   return (
-    <form onSubmit={props.handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div>
         <Field
           placeholder="email"
@@ -28,9 +29,7 @@ const LoginForm = (props) => {
         <Field component={Input} name="rememberMe" type="checkbox" /> remember
         me
       </div>
-      {props.error && (
-        <div className={classes.formSummaryError}> {props.error}</div>
-      )}
+      {error && <div className={classes.formSummaryError}> {error}</div>}
       <div>
         <button>Login</button>
       </div>
@@ -43,12 +42,12 @@ const LoginReduxForm = reduxForm({
 })(LoginForm);
 
 const Login = (props) => {
+  let { login, isAuth } = props;
   const onSubmit = (formData) => {
-    console.log(formData);
-    props.login(formData.email, formData.password, formData.rememberMe);
+    login(formData.email, formData.password, formData.rememberMe);
   };
 
-  if (props.isAuth) {
+  if (isAuth) {
     return <Redirect to="/profile" />;
   }
 

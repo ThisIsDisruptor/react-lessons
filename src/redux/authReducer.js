@@ -1,8 +1,8 @@
 import { authAPI } from "../api/api";
 import { stopSubmit } from "redux-form";
 
-const SET_AUTH_USER_DATA = "SET_AUTH_USER_DATA";
-const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
+const SET_AUTH_USER_DATA = "socialNetwork/auth/SET_AUTH_USER_DATA";
+const TOGGLE_IS_FETCHING = "socialNetwork/auth/STOGGLE_IS_FETCHING";
 
 let initialState = {
   id: null,
@@ -48,34 +48,31 @@ export const toggleIsFetching = (isFetching) => {
   };
 };
 
-export const getAuthUserDataThunkCreator = () => (dispatch) => {
-  return authAPI.getAuthUserData().then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(setAuthUserData(data.data, true));
-    }
-  });
+export const getAuthUserDataThunkCreator = () => async (dispatch) => {
+  let data = await authAPI.getAuthUserData();
+  if (data.resultCode === 0) {
+    dispatch(setAuthUserData(data.data, true));
+  }
 };
 
-export const loginThunkCreator = (email, password, rememberMe) => (
+export const loginThunkCreator = (email, password, rememberMe) => async (
   dispatch
 ) => {
-  authAPI.login(email, password, rememberMe).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(getAuthUserDataThunkCreator());
-    } else {
-      let message = data.messages.length > 0 ? data.messages[0] : "Some error";
-      let action = stopSubmit("login", { _error: message });
-      dispatch(action);
-    }
-  });
+  let data = await authAPI.login(email, password, rememberMe);
+  if (data.resultCode === 0) {
+    dispatch(getAuthUserDataThunkCreator());
+  } else {
+    let message = data.messages.length > 0 ? data.messages[0] : "Some error";
+    let action = stopSubmit("login", { _error: message });
+    dispatch(action);
+  }
 };
 
-export const logoutThunkCreator = () => (dispatch) => {
-  authAPI.logout().then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(setAuthUserData({ id: null, email: null, login: null }, false));
-    }
-  });
+export const logoutThunkCreator = () => async (dispatch) => {
+  let data = await authAPI.logout();
+  if (data.resultCode === 0) {
+    dispatch(setAuthUserData({ id: null, email: null, login: null }, false));
+  }
 };
 
 export default authReducer;

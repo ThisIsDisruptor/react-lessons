@@ -1,8 +1,9 @@
 import { profileAPI } from "../api/api";
 
-const ADD_POST = "ADD-POST";
-const SET_USER_PROFILE = "SET_USER_PROFILE";
-const SET_USER_STATUS = "SET_USER_STATUS";
+const ADD_POST = "socialNetwork/profile/ADD-POST";
+const SET_USER_PROFILE = "socialNetwork/profile/SET_USER_PROFILE";
+const SET_USER_STATUS = "socialNetwork/profile/SET_USER_STATUS";
+const DELETE_POST = "socialNetwork/profile/DELETE_POST";
 
 let posts = [
   { id: 1, message: "hello!", likesCount: 10 },
@@ -42,6 +43,12 @@ const profileReducer = (state = initialState, action) => {
         status: action.status,
       };
     }
+    case DELETE_POST: {
+      return {
+        ...state,
+        posts: state.posts.filter((post) => post.id !== action.postId),
+      };
+    }
 
     default:
       return state;
@@ -69,26 +76,30 @@ export const setUserStatus = (status) => {
   };
 };
 
-export const getProfileInfoThunkCreator = (userId) => (dispatch) => {
-  profileAPI.getProfileInfo(userId).then((data) => {
-    dispatch(setUserProfile(data));
-  });
+export const deletePost = (postId) => {
+  return {
+    type: DELETE_POST,
+    postId: postId,
+  };
 };
 
-export const getStatusThunkCreator = (userId) => (dispatch) => {
-  profileAPI.getStatus(userId).then((data) => {
-    dispatch(setUserStatus(data));
-  });
+export const getProfileInfoThunkCreator = (userId) => async (dispatch) => {
+  let data = await profileAPI.getProfileInfo(userId);
+  dispatch(setUserProfile(data));
 };
 
-export const updateStatusThunkCreator = (status) => (dispatch) => {
-  profileAPI.updateStatus(status).then((data) => {
-    if (data.resultCode === 0) {
-      dispatch(setUserStatus(status));
-    } else {
-      alert("Не удалось");
-    }
-  });
+export const getStatusThunkCreator = (userId) => async (dispatch) => {
+  let data = await profileAPI.getStatus(userId);
+  dispatch(setUserStatus(data));
+};
+
+export const updateStatusThunkCreator = (status) => async (dispatch) => {
+  let data = await profileAPI.updateStatus(status);
+  if (data.resultCode === 0) {
+    dispatch(setUserStatus(status));
+  } else {
+    alert("Не удалось");
+  }
 };
 
 export default profileReducer;
