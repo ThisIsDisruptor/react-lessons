@@ -26,7 +26,7 @@ const ProfileInfo = (props) => {
       photos: { small, large },
     } = props.profile;
 
-    let [status, updateStatus] = props;
+    let { status, updateStatus } = props;
 
     return (
       <div>
