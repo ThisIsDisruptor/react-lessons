@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import { Route, withRouter } from "react-router-dom";
+import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -10,10 +10,11 @@ import UsersContainer from "./components/Users/UsersContainer";
 import ProfileComponent from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
-import { connect } from "react-redux";
+import { connect, Provider } from "react-redux";
 import { compose } from "redux";
 import { initializeAppThunkCreator } from "./redux/appReducer";
 import Preloader from "./components/common/Preloader/Preloader";
+import store from "./redux/reduxStore";
 
 class AppComponent extends React.Component {
   componentDidMount() {
@@ -55,9 +56,18 @@ let functionsToProps = {
   initializeApp: initializeAppThunkCreator,
 };
 
-let App = compose(
+let AppContainer = compose(
   withRouter,
   connect(mapStateToProps, functionsToProps)
 )(AppComponent);
 
-export default App;
+let SocialNetworkApp = (props) => (
+  <React.StrictMode>
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppContainer store={store} />
+      </Provider>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+export default SocialNetworkApp;
