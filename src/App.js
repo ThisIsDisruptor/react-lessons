@@ -13,12 +13,13 @@ import { compose } from "redux";
 import { initializeAppThunkCreator } from "./redux/appReducer";
 import Preloader from "./components/common/Preloader/Preloader";
 import store from "./redux/reduxStore";
+import { withSuspense } from "./hoc/withSuspense";
 
 const DialogsContainer = React.lazy(() =>
   import("./components/Dialogs/DialogsContainer")
 );
 
-const ProfileComponent = React.lazy(() =>
+const ProfileContainer = React.lazy(() =>
   import("./components/Profile/ProfileContainer")
 );
 
@@ -40,20 +41,9 @@ class AppComponent extends React.Component {
         <div className="app-wrapper-content">
           <Route
             path="/profile/:userId?"
-            render={() => (
-              <Suspense fallback={<Preloader isFetching={true} />}>
-                <ProfileComponent />
-              </Suspense>
-            )}
+            render={withSuspense(ProfileContainer)}
           />
-          <Route
-            path="/dialogs"
-            render={() => (
-              <Suspense fallback={<Preloader isFetching={true} />}>
-                <DialogsContainer />
-              </Suspense>
-            )}
-          />
+          <Route path="/dialogs" render={withSuspense(DialogsContainer)} />
 
           <Route path="/news" component={News} />
           <Route path="/music" component={Music} />
