@@ -1,13 +1,11 @@
-import React from "react";
+import React, { Suspense } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
-import ProfileComponent from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import LoginContainer from "./components/Login/LoginContainer";
 import { connect, Provider } from "react-redux";
@@ -15,6 +13,14 @@ import { compose } from "redux";
 import { initializeAppThunkCreator } from "./redux/appReducer";
 import Preloader from "./components/common/Preloader/Preloader";
 import store from "./redux/reduxStore";
+
+const DialogsContainer = React.lazy(() =>
+  import("./components/Dialogs/DialogsContainer")
+);
+
+const ProfileComponent = React.lazy(() =>
+  import("./components/Profile/ProfileContainer")
+);
 
 class AppComponent extends React.Component {
   componentDidMount() {
@@ -32,8 +38,22 @@ class AppComponent extends React.Component {
         <HeaderContainer />
         <Navbar sideBar={sideBar} />
         <div className="app-wrapper-content">
-          <Route path="/profile/:userId?" render={() => <ProfileComponent />} />
-          <Route path="/dialogs" render={() => <DialogsContainer />} />
+          <Route
+            path="/profile/:userId?"
+            render={() => (
+              <Suspense fallback={<Preloader isFetching={true} />}>
+                <ProfileComponent />
+              </Suspense>
+            )}
+          />
+          <Route
+            path="/dialogs"
+            render={() => (
+              <Suspense fallback={<Preloader isFetching={true} />}>
+                <DialogsContainer />
+              </Suspense>
+            )}
+          />
 
           <Route path="/news" component={News} />
           <Route path="/music" component={Music} />
