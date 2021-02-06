@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import { BrowserRouter, Route, withRouter } from 'react-router-dom';
+import { HashRouter, Route, withRouter } from 'react-router-dom';
 import News from './components/News/News';
 import Music from './components/Music/Music';
 import Settings from './components/Settings/Settings';
@@ -63,11 +63,11 @@ let AppContainer = compose(withRouter, connect(mapStateToProps, functionsToProps
 
 let SocialNetworkApp = props => (
 	<React.StrictMode>
-		<BrowserRouter basename={process.env.PUBLIC_URL}>
+		<HashRouter basename={process.env.PUBLIC_URL}>
 			<Provider store={store}>
 				<AppContainer store={store} />
 			</Provider>
-		</BrowserRouter>
+		</HashRouter>
 	</React.StrictMode>
 );
 export default SocialNetworkApp;
