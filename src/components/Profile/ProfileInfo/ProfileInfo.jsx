@@ -2,6 +2,7 @@ import React from "react";
 import Preloader from "../../common/Preloader/Preloader";
 import classes from "./ProfileInfo.module.css";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
+import defaultAva from "../../../assets/images/default_ava.jpg";
 
 const ProfileInfo = (props) => {
   if (!props.profile) {
@@ -26,14 +27,21 @@ const ProfileInfo = (props) => {
       photos: { small, large },
     } = props.profile;
 
-    let { status, updateStatus } = props;
+    let { status, updateStatus, isOwner, savePhoto } = props;
+
+    const onMainPhotoSelected = (e) => {
+      if (e.target.files.length) {
+        savePhoto(e.target.files[0]);
+      }
+    };
 
     return (
       <div>
         <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
         <div className={classes.descriptionBlock}>
           <div>
-            <img src={large} alt="" />
+            <img src={large || defaultAva} alt="" />
+            {isOwner && <input type="file" onChange={onMainPhotoSelected} />}
           </div>
           <div>Info</div>
           <div>Имя: {fullName}</div>
