@@ -1,38 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Preloader from "../../common/Preloader/Preloader";
 import classes from "./ProfileInfo.module.css";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 import defaultAva from "../../../assets/images/default_ava.jpg";
+import ProfileDataForm from "./ProfileDataForm";
+import { ProfileData } from "./ProfileData";
 
 const ProfileInfo = (props) => {
+  //local state
+  let [editMode, setEditMode] = useState(false);
+  let [profile, setProfile] = useState(props.profile);
+
+  useEffect(() => {
+    setProfile(props.profile);
+  }, [props.profile]);
+
+  const activateEditMode = () => {
+    setEditMode(true);
+  };
+  const deactivateEditMode = () => {
+    setEditMode(false);
+    props.updateProfile(profile);
+  };
+
+  const onStatusChange = (e) => {
+    setProfile(e.currentTarget.value);
+  };
+
   if (!props.profile) {
     return <Preloader isFetching={true} />;
   } else {
     let {
-      aboutMe,
-      contacts: {
-        facebook,
-        website,
-        vk,
-        twitter,
-        instagram,
-        youtube,
-        github,
-        mainLink,
-      },
-      lookingForAJob,
-      lookingForAJobDescription,
-      fullName,
       userId,
       photos: { small, large },
     } = props.profile;
 
-    let { status, updateStatus, isOwner, savePhoto } = props;
+    let { status, updateStatus, isOwner, savePhoto, saveProfile } = props;
 
     const onMainPhotoSelected = (e) => {
       if (e.target.files.length) {
         savePhoto(e.target.files[0]);
       }
+    };
+    const onSubmit = (formData) => {
+      saveProfile(formData);
     };
 
     return (
@@ -43,25 +54,17 @@ const ProfileInfo = (props) => {
             <img src={large || defaultAva} alt="" />
             {isOwner && <input type="file" onChange={onMainPhotoSelected} />}
           </div>
-          <div>Info</div>
-          <div>Имя: {fullName}</div>
-          <div>Обо мне: {aboutMe}</div>
-          <div>
-            Контакты
-            <br />
-            <br />
-            <div>facebook: {facebook}</div>
-            <div>website: {website}</div>
-            <div>vk: {vk} </div>
-            <div>twitter: {twitter}</div>
-            <div>instagram: {instagram} </div>
-            <div>youTube: {youtube} </div>
-            <div>github: {github} </div>
-            <div>mainLink: {mainLink} </div>
-            <br />
-          </div>
-          <div>Ищу работу: {lookingForAJob ? "Да" : "Нет"}</div>
-          <div>Описание поиска работы: {lookingForAJobDescription}</div>
+          {editMode ? (
+            <ProfileDataForm profile={props.profile} onSubmit={onSubmit} />
+          ) : (
+            <ProfileData
+              profile={props.profile}
+              isOwner={isOwner}
+              goToEditMode={() => {
+                setEditMode(true);
+              }}
+            />
+          )}
         </div>
       </div>
     );

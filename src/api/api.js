@@ -58,11 +58,18 @@ const savePhoto = (file) => {
     .then((response) => response.data);
 };
 
+const saveProfile = (profile) => {
+  return instance
+    .put(`profile`, profile)
+    .then((response) => response.data);
+};
+
 export const profileAPI = {
   getProfileInfo,
   getStatus,
   updateStatus,
   savePhoto,
+  saveProfile
 };
 
 //authAPI

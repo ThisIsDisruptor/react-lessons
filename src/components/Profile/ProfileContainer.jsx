@@ -6,6 +6,7 @@ import {
   getStatusThunkCreator,
   savePhotoThunkCreator,
   updateStatusThunkCreator,
+  saveProfileThunkCreator,
 } from "../../redux/profileReducer";
 import { withRouter } from "react-router-dom";
 import { compose } from "redux";
@@ -43,6 +44,7 @@ class ProfileAPIComponent extends React.Component {
         status={this.props.status}
         updateStatus={this.props.updateStatus}
         savePhoto={this.props.savePhoto}
+        saveProfile={this.props.saveProfile}
       />
     );
   }
@@ -60,6 +62,7 @@ let functionsToProps = {
   getStatus: getStatusThunkCreator,
   updateStatus: updateStatusThunkCreator,
   savePhoto: savePhotoThunkCreator,
+  saveProfile: saveProfileThunkCreator,
 };
 
 let ProfileComponent = compose(
